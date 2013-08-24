@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PayOnline.PaymentSDK</name>
+    </assembly>
+    <members>
+        <member name="T:PayOnline.PaymentSDK.TransactionInfo">
+            <summary>
+            Информация о трансакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.TransactionId">
+            <summary>
+            ID трансакции в системе PayOnline
+            Если трансакция не найдена, то <see cref="P:PayOnline.PaymentSDK.TransactionInfo.TransactionId"/> равно нулю
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.Amount">
+            <summary>
+            Сумма трансакции в валюте <see cref="P:PayOnline.PaymentSDK.TransactionInfo.Currency"/>
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.Currency">
+            <summary>
+            Валюта трансакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.OrderId">
+            <summary>
+            ID заказа, переданный в момент авторизации трасакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.DateTime">
+            <summary>
+            Дата и время создания трансакции по UTC (Всемирное координированное время)
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.Result">
+            <summary>
+            Результат выполнения запроса
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.Status">
+            <summary>
+            Статус транзакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.TransactionInfo.ErrorInfo">
+            <summary>
+            Информация об ошибке, если она произошла в момент обработки запроса
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.PayResponse">
+            <summary>
+            Результат выполнения авторизации денежных средств на банковской карте
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.TransactionId">
+            <summary>
+            ID трансакции в системе PayOnline
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.Result">
+            <summary>
+            Результат выполнения
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.Code">
+            <summary>
+            Код ответа
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.Status">
+            <summary>
+            Статус трансакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.ThreeDs">
+            <summary>
+            Информация, возвращаемая платежной системой, для прохождения проверки на стороне банка эмитента
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayResponse.ErrorInfo">
+            <summary>
+            Информация об ошибке, если она произошла в момент обработки запроса
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.ThreeDsCompletedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.ThreeDsCompletedEventArgs.Transaction">
+            <summary>
+            Информация о платеже
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.Currency">
+            <summary>
+            Список поддерживаемых валют
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Currency.Unknown">
+            <summary>
+            Неизвестная валюта. Возвращается при вызове метода <see cref="M:PayOnline.PaymentSDK.IProcessing.Get(PayOnline.PaymentSDK.GetRequest)"/> если трансакция не найдена.
+            Нельзя использовать в методе <see cref="M:PayOnline.PaymentSDK.IProcessing.Pay(PayOnline.PaymentSDK.PayRequest)"/>
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Currency.Usd">
+            <summary>
+            Доллар США
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Currency.Rub">
+            <summary>
+            Российский рубль
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Currency.Eur">
+            <summary>
+            Евро
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.Error">
+            <summary>
+            Информация об ошибке возникшей в процессе обработки запроса.
+            Для получения дополнительной информации необходимо связаться со службой поддержки
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.Error.Code">
+            <summary>
+            Код ошибки
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.Error.Message">
+            <summary>
+            Краткая информация об ошибке
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.GetRequest">
+            <summary>
+            Запрос на получение информации о транзакции
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.GetRequest.TransactionId">
+            <summary>
+            ID трансакции процессингового центра PayOnline
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.IProcessing">
+            <summary>
+            Интерфейс процессингового центра PayOnline
+            </summary>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.IProcessing.Pay(PayOnline.PaymentSDK.PayRequest)">
+            <summary>
+            Провести платеж
+            </summary>
+            <exception cref="T:PayOnline.PaymentSDK.Exceptions.PaymentSDKException"></exception>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.IProcessing.Get(PayOnline.PaymentSDK.GetRequest)">
+            <summary>
+            Получить информацию о трансакции
+            Возаращается информацию только об успешных трансакциях
+            </summary>
+            <exception cref="T:PayOnline.PaymentSDK.Exceptions.PaymentSDKException"></exception>
+        </member>
+        <member name="E:PayOnline.PaymentSDK.IProcessing.ThreeDsCompleted">
+            <summary>
+            Событие <see cref="E:PayOnline.PaymentSDK.IProcessing.ThreeDsCompleted"/> возникает после завершения прохождения проверки 3D-S
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.Processing">
+            <summary>
+            Интерфейс процессингового центра PayOnline
+            </summary>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.Processing.#ctor(PayOnline.PaymentSDK.IConfiguration)">
+            <summary>
+            Конструктор, принимающий объект, реализующий интерфейс <see cref="T:PayOnline.PaymentSDK.IConfiguration"/>
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.Processing.Pay(PayOnline.PaymentSDK.PayRequest)">
+            <summary>
+            Провести платеж
+            </summary>
+            <exception cref="T:PayOnline.PaymentSDK.Exceptions.PaymentSDKException"></exception>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.Processing.Get(PayOnline.PaymentSDK.GetRequest)">
+            <summary>
+            Получить информацию о трансакции
+            Возвращается информацию только об успешных трансакциях
+            </summary>
+            <exception cref="T:PayOnline.PaymentSDK.Exceptions.PaymentSDKException"></exception>
+        </member>
+        <member name="E:PayOnline.PaymentSDK.Processing.ThreeDsCompleted">
+            <summary>
+            Событие <see cref="E:PayOnline.PaymentSDK.Processing.ThreeDsCompleted"/> возникает после завершения прохождения проверки 3D-S
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.PayRequest">
+            <summary>
+            Запрос на авторизацию средст на карте плетельщика
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.OrderId">
+            <summary>
+            ID заказа в вашей системе
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.Amount">
+            <summary>
+            Сумма платежа в валюте <see cref="P:PayOnline.PaymentSDK.PayRequest.Currency"/>
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.Currency">
+            <summary>
+            Валюта платежа
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.Email">
+            <summary>
+            Электронная почта плательщика
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.CardHolderName">
+            <summary>
+            Имя держателя карты, указанное на банковской карте
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.CardNumber">
+            <summary>
+            Номер банковской карты, указанный на банковской карте
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.CardExpMonth">
+            <summary>
+            Месяц окончания действия банковской карты
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.CardExpYear">
+            <summary>
+            Год окончания действия банковской карты
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.PayRequest.CardCvv">
+            <summary>
+            Секретный код, указанный на обратной стороне банковской карты
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.Result">
+            <summary>
+            Результат выполнения запроса к процессингову центру PayOnline
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Result.Success">
+            <summary>
+            Авторизация прошла успешно, либо трансакция найдена
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Result.Error">
+            <summary>
+            В процессе выполнения запроса, произошли ошибки
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Result.Declined">
+            <summary>
+            Запрос на авторизацию средств отклонен
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Result.CompleteValidation">
+            <summary>
+            Необходимо пройти дополнительну проверку на стороне банка-эмитента
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Result.NotFound">
+            <summary>
+            Трансакция не найдена, возникает в случае выполнения запроса <see cref="M:PayOnline.PaymentSDK.IProcessing.Get(PayOnline.PaymentSDK.GetRequest)"/>
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.ThreeDsData">
+            <summary>
+            Информация, возвращаемая платежной системой, для прохождения проверки на стороне банка-эмитента
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.ThreeDsData.PaReq">
+            <summary>
+            Запрос на аутентификацию плетельщика
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.ThreeDsData.AcsUrl">
+            <summary>
+            Страница сайта банка-эмитента
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.ThreeDsData.MD">
+            <summary>
+            Merchant data field which contains a unique transaction reference.
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.Status">
+            <summary>
+            Статус трансакции в платежной системе PayOnline
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.Unknown">
+            <summary>
+            Неизместный статус, возвращается, если трансакция не найдена
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.Pending">
+            <summary>
+            Успешная трансакция, деньги на карте авторизованы, но могут быть разблокированы
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.Settled">
+            <summary>
+            Успешная трансакция, операция по переводу денежных средств завершена
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.Voided">
+            <summary>
+            Трансакция отменена
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.PreAuthorized">
+            <summary>
+            Успешная трансакция, деньги авторизованы, однако необходимо подтверждение мерчанта
+            </summary>
+        </member>
+        <member name="F:PayOnline.PaymentSDK.Status.Declined">
+            <summary>
+            Запрос на авторизацию средств отклонен
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.IConfiguration">
+            <summary>
+            Информация о конфигурации для настройки среды выполнения
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.IConfiguration.MerchantId">
+            <summary>
+            Ваш ID мерчанта, который вы получаете при подключении к PayOnline
+            </summary>
+        </member>
+        <member name="P:PayOnline.PaymentSDK.IConfiguration.Key">
+            <summary>
+            Приватный ключ, выдаваемый при подключении, которым подписываются запросы
+            </summary>
+        </member>
+        <member name="T:PayOnline.PaymentSDK.WebViewExtentions">
+            <summary>
+            Класс-расширение для контрола <see cref="T:Windows.UI.Xaml.Controls.WebView"/>
+            </summary>
+        </member>
+        <member name="M:PayOnline.PaymentSDK.WebViewExtentions.NavigateToAcsUrl(Windows.UI.Xaml.Controls.WebView,PayOnline.PaymentSDK.PayResponse,PayOnline.PaymentSDK.IProcessing)">
+            <summary>
+            Метод делает переход на страницу банка эмитента, для прохождения авторизации
+            </summary>
+            <param name="webView"></param>
+            <param name="payResponse"></param>
+            <param name="processing"></param>
+        </member>
+    </members>
+</doc>
