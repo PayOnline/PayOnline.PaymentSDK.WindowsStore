@@ -270,7 +270,7 @@ Result
  </tr>
 </table>
 
-* Примечание: * Для получения дополнительной информации необходимо связаться со службой поддержки
+~Примечание: Для получения дополнительной информации необходимо связаться со службой поддержки~
 
 ### GetRequest ###
 
@@ -442,7 +442,7 @@ Result
  </tr>
 </table>
 
- #### Методы ####
+#### Методы ####
 
 <table>
  <tr>
@@ -598,7 +598,7 @@ Result
  </tr>
 </table>
 
-### WebViewExtentions ### 
+### WebViewExtentions ###
 
 Класс-расширение для элемента управления WebView
 
@@ -613,4 +613,72 @@ Result
  </tr>
 </table>
 
+## Пример ##
+###  Проведение платежа ###
 
+<pre><code>
+/// <summary>
+/// Определяем класс конфигурации, реализующий интерфейс IConfiguration
+/// </summary>
+class Configuration : IConfiguration
+{
+    public int MerchantId { get; set; }
+    public string Key { get; set; }
+}
+
+//Определяем конфигурацию 
+var conf = new Configuration
+{
+    // ID мерчанта, полученный при регистрации
+    MerchantId = 10027,
+    // Приватный ключ, которым подписываются запросы
+    Key = "612BCD3D-F6F7-47EF-AD19-0CF40DF2876D",
+};
+
+// Формируем запрос на проведение платежа
+var request = new PayRequest
+{
+    Amount = 30m, // Сумма платежа
+    Currency = Currency.Rub, // Валюта платежа
+    OrderId = "42836462308", // ID заказа
+    CardExpMonth = 10, // Месяц окончания действия карты
+    CardExpYear = 2015, // Год окончания действия карты
+    CardCvv = 129, // Секретный код карты, указанный на обратной стороне
+    CardHolderName = "CARDHOLDER NAME", // Имя держателя карты
+    CardNumber = "4111111111111111", // Номер карты
+    Email = "card_holder@example.com", // Электронная почта плательщика
+};
+
+// создаем объект Processing
+var po = new Processing(conf);
+
+// подписываемся на событие ThreeDsCompleted
+po.ThreeDsCompleted += po_ThreeDsCompleted;
+
+// Вызываем метод проведения платежа
+var result = await po.Pay(request);
+
+if (result.Result == Result.Success)
+{
+    // Авторизация успешно прошла
+}
+else if (result.Result == Result.Declined)
+{
+    // Отказ в авторизации средств
+}
+else if (result.Result == Result.CompleteValidation)
+{
+    // необходимо пройти проверку 3DS
+    // переход на страницу банка-эмитента
+    webView.NavigateToAcsUrl(result, po);
+}
+
+/// <summary>
+/// Обработка события завершения проверки 3DS
+/// </summary>
+void po_ThreeDsCompleted(object sender, ThreeDsCompletedEventArgs e)
+{
+    // Результат проверки
+    var result = e.Transaction;
+}
+</code></pre>
