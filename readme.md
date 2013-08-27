@@ -142,7 +142,7 @@ Result
   </td>
  </tr>
  <tr>
-  <tdUsd
+  <td>Usd
   </td>
   <td>Доллар США
   </td>
@@ -199,7 +199,7 @@ Result
 </table>
 
 ### Status ###
--------------------------
+--------------
 
 Статус трансакции в платежной системе PayOnline
 
@@ -238,6 +238,377 @@ Result
   <td>Declined
   </td>
   <td>Отклоненная трансакция
+  </td>
+ </tr>
+</table>
+
+## Классы ##
+--------------
+
+### Error ###
+
+Информация об ошибке, возникшей в процессе обработки запроса
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>Code
+  </td>
+  <td>int
+  </td>
+  <td>Код ошибки
+  </td>
+ </tr>
+ <tr>
+  <td>Message
+  </td>
+  <td>string
+  </td>
+  <td>Краткая информация об ошибке
+  </td>
+ </tr>
+</table>
+
+* Примечание: * Для получения дополнительной информации необходимо связаться со службой поддержки
+
+### GetRequest ###
+
+Запрос на получение информации о транзакции
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>TransactionId
+  </td>
+  <td>long
+  </td>
+  <td>ID трансакции в системе процессингового центра PayOnline
+  </td>
+ </tr>
+</table>
+
+### PayRequest ####
+
+Запрос на авторизацию средств на карте плательщика
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>OrderId
+  </td>
+  <td>string
+  </td>
+  <td>ID заказа в вашей системе
+  </td>
+ </tr>
+ <tr>
+  <td>Amount
+  </td>
+  <td>decimal
+  </td>
+  <td>Сумма платежа
+  </td>
+ </tr>
+ <tr>
+  <td>Currency
+  </td>
+  <td>Currency
+  </td>
+  <td>Валюта платежа
+  </td>
+ </tr>
+ <tr>
+  <td>Email
+  </td>
+  <td>string
+  </td>
+  <td>Электронная почта плательщика
+  </td>
+ </tr>
+ <tr>
+  <td>CardHolderName
+  </td>
+  <td>string
+  </td>
+  <td>Имя держателя карты, указанное на банковской карте
+  </td>
+ </tr>
+ <tr>
+  <td>CardNumber
+  </td>
+  <td>string
+  </td>
+  <td>Номер банковской карты, указанный на банковской карте
+  </td>
+ </tr>
+ <tr>
+  <td>CardExpMonth
+  </td>
+  <td>int
+  </td>
+  <td>Месяц окончания действия банковской карты
+  </td>
+ </tr>
+ <tr>
+  <td>CardExpYear
+  </td>
+  <td>int
+  </td>
+  <td>Год окончания действия банковской карты
+  </td>
+ </tr>
+ <tr>
+  <td>CardCvv
+  </td>
+  <td>int
+  </td>
+  <td>Секретный код, указанный на обратной стороне банковской карты
+  </td>
+ </tr>
+</table>
+
+### PayResponse ###
+
+Результат выполнения авторизации денежных средств на банковской карте
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>TransactionId
+  </td>
+  <td>long
+  </td>
+  <td>ID трансакции в системе PayOnline
+  </td>
+ </tr>
+ <tr>
+  <td>Result
+  </td>
+  <td>Result
+  </td>
+  <td>Результат выполнения операции
+  </td>
+ </tr>
+ <tr>
+  <td>Code
+  </td>
+  <td>int
+  </td>
+  <td>Код ответа
+  </td>
+ </tr>
+ <tr>
+  <td>Status
+  </td>
+  <td>Status
+  </td>
+  <td>Статус трансакции
+  </td>
+ </tr>
+ <tr>
+  <td>ThreeDs
+  </td>
+  <tdS>ThreeDsData
+  </td>
+  <td>Информация, возвращаемая платежной системой, для прохождения проверки  на стороне банка эмитента
+  </td>
+ </tr>
+ <tr>
+  <td>ErrorInfo
+  </td>
+  <td>Error
+  </td>
+  <td>Информация об ошибке, если она произошла в момент обработки запроса
+  </td>
+ </tr>
+</table>
+
+### Processing ###
+
+Представляет реализацию интерфейса процессингового центра PayOnline
+
+#### Конструкторы ####
+
+<table>
+ <tr>
+  <td>Processing(IConfiguration configuration)</p>
+  </td>
+  <td>Инициализирует класс Processing объектом конфигурации среды выполнения
+  </td>
+ </tr>
+</table>
+
+ #### Методы ####
+
+<table>
+ <tr>
+  <td>Task&lt;PayResponse&gt; Pay(PayRequest payRequest)
+  </td>
+  <td>Операция проведения платежа
+  </td>
+ </tr>
+ <tr>
+  <td>Task&lt;TransactionInfo&gt; Get(GetRequest findRequest)
+  </td>
+  <td>Получение информации о трансакции
+  Возвращается информацию только об успешных трансакциях
+  </td>
+ </tr>
+</table>
+
+#### События ####
+
+<table>
+ <tr>
+  <td>EventHandler&lt;ThreeDsCompletedEventArgs&gt; ThreeDsCompleted
+  </td>
+  <td>Событие возникает после завершения прохождения проверки 3D-S
+  </td>
+ </tr>
+</table>
+
+### ThreeDsCompletedEventArgs ###
+
+Предоставляет данные для события ThreeDsCompleted
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>Transaction
+  </td>
+  <td>PayResponse
+  </td>
+  <td>Информация о платеже
+  </td>
+ </tr>
+</table>
+
+
+### ThreeDsData ###
+
+Информация, возвращаемая платежной системой, для прохождения
+проверки на стороне банка-эмитента
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>PaReq
+  </td>
+  <td>string
+  </td>
+  <td>Запрос на аутентификацию плательщика
+  </td>
+ </tr>
+ <tr>
+  <td>AcsUrl
+  </td>
+  <td>string
+  </td>
+  <td>Страница сайта банка-эмитента
+  </td>
+ </tr>
+ <tr>
+  <td>MD
+  </td>
+  <td>string
+  </td>
+  <td>Информация о мерчанте
+  </td>
+ </tr>
+</table>
+
+### TransactionInfo ###
+
+Информация о трансакции
+
+#### Свойства ####
+
+<table>
+ <tr>
+  <td>
+  TransactionId
+  </td>
+  <td>long
+  </td>
+  <td>ID трансакции в системе PayOnline
+  </td>
+ </tr>
+ <tr>
+  <td>Amount
+  </td>
+  <td>decimal
+  </td>
+  <td>Сумма трансакции
+  </td>
+ </tr>
+ <tr>
+  <td>Currency
+  </td>
+  <td>Currency
+  </td>
+  <td>Валюта трансакции
+  </td>
+ </tr>
+ <tr>
+  <td>OrderId
+  </td>
+  <td>string
+  </td>
+  <td>ID заказа
+  </td>
+ </tr>
+ <tr>
+  <td>DateTime
+  </td>
+  <td>DateTime
+  </td>
+  <td>Дата и время создания трансакции по UTC (Всемирное координированное
+  время)
+  </td>
+ </tr>
+ <tr>
+  <td>Result
+  </td>
+  <td>Result
+  </td>
+  <td>Результат выполнения операции
+  </td>
+ </tr>
+ <tr>
+  <td>Status
+  </td>
+  <td>Status
+  </td>
+  <td>Статус трансакции
+  </td>
+ </tr>
+ <tr>
+  <td>ErrorInfo
+  </td>
+  <td>Error
+  </td>
+  <td>Информация об ошибке, если она произошла в момент обработки запроса
+  </td>
+ </tr>
+</table>
+
+### WebViewExtentions ### 
+
+Класс-расширение для элемента управления WebView
+
+#### Методы ####
+
+<table>
+ <tr>
+  <td>static void NavigateToAcsUrl(this WebView webView, PayResponse payResponse, IProcessing processing)
+  </td>
+  <td>Метод расширение для элемента управления WebView. Происходит переход на страницу банка эмитента для прохождения проверки
   </td>
  </tr>
 </table>
